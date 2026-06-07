@@ -11,7 +11,7 @@ const AppRouter = observer(() => {
     console.log(user)
     return (
         <Switch>
-            {user.isAuth && authRoutes.map(({path, Component}) =>
+            {user.isAuth && user.user.role === 'ADMIN' && authRoutes.map(({path, Component}) =>
                 <Route key={path} path={path} component={Component} exact/>
             )}
             {publicRoutes.map(({path, Component}) =>

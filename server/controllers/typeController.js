@@ -13,6 +13,35 @@ class TypeController {
         return res.json(types)
     }
 
+    async delete(req, res, next) {
+        try {
+            const {id} = req.params
+            const type = await Type.findByPk(id)
+            if (!type) {
+                return next(ApiError.badRequest('Тип не найден'))
+            }
+            await type.destroy()
+            return res.json({message: 'Тип успешно удален'})
+        } catch (e) {
+            next(ApiError.badRequest(e.message))
+        }
+    }
+
+    async update(req, res, next) {
+        try {
+            const {id, name} = req.body
+            const type = await Type.findByPk(id)
+            if (!type) {
+                return next(ApiError.badRequest('Тип не найден'))
+            }
+            if (name) type.name = name
+            await type.save()
+            return res.json(type)
+        } catch (e) {
+            next(ApiError.badRequest(e.message))
+        }
+    }
+
 }
 
 module.exports = new TypeController()

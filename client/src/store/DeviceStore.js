@@ -10,6 +10,7 @@ export default class DeviceStore {
         this._page = 1
         this._totalCount = 0
         this._limit = 3
+        this._basket = []
         makeAutoObservable(this)
     }
 
@@ -61,5 +62,41 @@ export default class DeviceStore {
     }
     get limit() {
         return this._limit
+    }
+
+    addToBasket(device) {
+        const existingItem = this._basket.find(item => item.id === device.id)
+        if (existingItem) {
+            existingItem.quantity += 1
+        } else {
+            this._basket.push({...device, quantity: 1})
+        }
+    }
+
+    removeFromBasket(deviceId) {
+        this._basket = this._basket.filter(item => item.id !== deviceId)
+    }
+
+    updateBasketQuantity(deviceId, quantity) {
+        const item = this._basket.find(item => item.id === deviceId)
+        if (item && quantity > 0) {
+            item.quantity = quantity
+        }
+    }
+
+    clearBasket() {
+        this._basket = []
+    }
+
+    get basket() {
+        return this._basket
+    }
+
+    get basketTotal() {
+        return this._basket.reduce((total, item) => total + (item.price * item.quantity), 0)
+    }
+
+    get basketCount() {
+        return this._basket.length
     }
 }

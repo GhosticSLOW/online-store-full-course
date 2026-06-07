@@ -13,8 +13,12 @@ const App = observer(() => {
 
     useEffect(() => {
         check().then(data => {
-            user.setUser(true)
+            user.setUser(data)
             user.setIsAuth(true)
+        }).catch(e => {
+            console.log('Not authorized')
+            localStorage.removeItem('token')
+            user.setIsAuth(false)
         }).finally(() => setLoading(false))
     }, [])
 

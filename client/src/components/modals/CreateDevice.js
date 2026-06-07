@@ -93,7 +93,23 @@ const CreateDevice = observer(({show, onHide}) => {
                         className="mt-3"
                         placeholder="Введите стоимость устройства"
                         type="number"
+                        min="0"
+                        step="1"
+                        style={{
+                            MozAppearance: 'textfield'
+                        }}
+                        onWheel={e => e.target.blur()}
                     />
+                    <style>{`
+                        input[type="number"]::-webkit-outer-spin-button,
+                        input[type="number"]::-webkit-inner-spin-button {
+                            -webkit-appearance: none;
+                            margin: 0;
+                        }
+                        input[type="number"] {
+                            -moz-appearance: textfield;
+                        }
+                    `}</style>
                     <Form.Control
                         className="mt-3"
                         type="file"
